@@ -1,2 +1,5 @@
 other/
 test/
+__pycache__/
+.vim/
+.idea/
