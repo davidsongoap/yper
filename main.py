@@ -1,42 +1,59 @@
+#  __  __ ____   ______ ____
+#  \ \/ // __ \ / ____// __ \
+#   \  // /_/ // __/  / /_/ /
+#   / // ____// /___ / _, _/
+#  /_//_/    /_____//_/ |_|
+#
+#  By Davidson Gonçalves
+#  github.com/davidsongoap
+
 import pygame
-from sys import exit
-from palette import Colors 
+from screens import GameScreen, ScreenType
 
 pygame.init()
 
-# window settings
-background_colour = Colors.DARK_BLUE1
-width, height = (910, 614)
-screen = pygame.display.set_mode((width, height))
-pygame.display.set_caption('Yper')
-current_font = 'FiraCode-Medium.ttf'
 
-def show_text(string, x=width//2, y=height//2, color=Colors.GREEN, size=50):
-	font = pygame.font.SysFont(current_font, size) 
-	text = font.render(string, True,color) 
-	textRect = text.get_rect()  
-	textRect.center = x,y
-	screen.blit(text, textRect)
+class Game:
+    def __init__(self):
+        self.width = 950
+        self.height = 630
+        self.FPS = 60
+        self.clock = pygame.time.Clock()
+        self.win = pygame.display.set_mode((self.width, self.height))
+        pygame.display.set_caption('Yper')
+        self.running = True
+        self.current_font = "fonts/Fira Code.ttf"
+        self.current_screen = ScreenType.MENU
+        self.screen = GameScreen(self)
+        self.accuracy = 0
+        self.wpm = 0
 
-def quit_game():
-	pygame.quit()
-	exit()
+    def get_font(self):
+        return self.current_font
 
-def process_events():
-	for event in pygame.event.get():
-		if event.type == pygame.QUIT:
-			quit_game()
-		if event.type == pygame.K_ESCAPE:
-			quit_game()
+    def change_screen(self, new_screen):
+        self.current_screen = new_screen
 
-def build_screen():
-	screen.fill(background_colour)
-	show_text("YPER",size=200)
-	pygame.display.flip()
+    def process_events(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self.running = False
 
-if __name__ == "__main__":
-	while 1:
-		process_events()
-		build_screen()
+            # the screen processess the pygame events
+            self.screen.process_event(event)
 
-quit_game()
+    def run(self):
+        # main app loop
+        while self.running:
+            self.clock.tick(self.FPS)
+            self.process_events()
+            self.draw()
+        pygame.quit()
+
+    def draw(self):
+        self.screen.draw()
+        pygame.display.update()
+
+
+game = Game()
+game.run()
