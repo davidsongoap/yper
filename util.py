@@ -5,7 +5,7 @@
 #  /_//_/    /_____//_/ |_|
 #
 #  By Davidson Gonçalves
-#  github.com/davidsongoap
+#  github.com/davidsongoap/yper
 
 import requests
 import json
