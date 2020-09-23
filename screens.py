@@ -275,11 +275,11 @@ class ScoreScreen(Screen):
     def draw(self):
         super().draw()
 
-        self.show_text("WPM", self.game.width//2, 110, Colors.WHITE1, 60)
-        self.show_text(str(self.game.wpm), self.game.width//2, 180, Colors.LIGHT_BLUE2, 70)
+        self.show_text("WPM", self.game.width//2, 120, Colors.WHITE1, 70)
+        self.show_text(str(self.game.wpm), self.game.width//2, 190, Colors.LIGHT_BLUE2, 80)
 
         self.show_text("Accuracy", self.game.width//2, 300, Colors.WHITE1, 60)
-        self.show_text(str(self.game.accuracy) + "%", self.game.width//2, 370, Colors.LIGHT_BLUE2, 70)
+        self.show_text(str(self.game.accuracy) + "%", self.game.width//2, 370, Colors.LIGHT_BLUE2, 80)
 
         for b in self.buttons:
             b.draw()
