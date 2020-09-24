@@ -1,6 +1,6 @@
 <br />
 <p align="center">
-    <img src="images/yper.png" alt="Logo" style="filter: drop-shadow(0px 0px 30px #222); ">
+    <img src="images/demo.gif" alt="Demo">
 
   <h1 align="center">YPER</h1>
   <p align="center">
