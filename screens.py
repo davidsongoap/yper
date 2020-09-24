@@ -201,15 +201,15 @@ class PlayScreen(Screen):
     def display_input(self):
         # input rectangles
         pygame.draw.rect(self.game.win, Colors.WHITE2,
-                ((self.game.width//2)-225,515,430,70), border_radius=20)
+                ((self.game.width//2)-235,515,450,70), border_radius=20)
         pygame.draw.rect(self.game.win, Colors.DARK_BLUE1,
-                ((self.game.width//2)-220,520,420,60), border_radius=20)
+                ((self.game.width//2)-230,520,440,60), border_radius=20)
 
         # show typed text
         self.show_text(self.typed_text, self.game.width//2, 550, Colors.WHITE1, 35)
 
         # icon
-        self.show_text("", 300, 550, Colors.WHITE3, 65)
+        self.show_text("", 280, 550, Colors.WHITE3, 65)
 
     def generate_word_list(self):
         # reset highlighted word position
