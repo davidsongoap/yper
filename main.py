@@ -20,7 +20,9 @@ class Game:
         self.FPS = 60
         self.clock = pygame.time.Clock()
         self.win = pygame.display.set_mode((self.width, self.height))
-        pygame.display.set_caption('Yper')
+        icon = pygame.image.load("images/icon.png")
+        pygame.display.set_icon(icon)
+        pygame.display.set_caption('YPER')
         self.running = True
         self.current_font = "fonts/Fira Code.ttf"
         self.current_screen = ScreenType.MENU
