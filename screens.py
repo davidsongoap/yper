@@ -127,6 +127,7 @@ class MenuScreen(Screen):
         self.show_text("YPER", size=210, color=Colors.LIGHT_BLUE1,
                        x=self.game.width//2, y=200)
 
+        pygame.draw.rect(self.game.win, self.background_colour,(490,135,100,45))
         #  show buttons
         for b in self.buttons:
             b.draw()
@@ -345,7 +346,9 @@ class OptionsScreen(Screen):
     def draw(self):
         super().draw()
         self.show_text("", x=self.game.width//2,
-                       y=self.game.height//2, size=250, color=Colors.WHITE2)
+                       y=(self.game.height//2) - 50, size=250, color=Colors.WHITE2)
+        self.show_text("coming soon", x=self.game.width//2,
+                       y=(self.game.height//2) + 130, size=60, color=Colors.WHITE2)
 
 class QuitScreen(Screen):
     # Note: This screen is not supposed to show anything. It just closes the game
