@@ -44,6 +44,9 @@ class Game:
             # the screen processess the pygame events
             self.screen.process_event(event)
 
+    def quit_game(self):
+        self.running = False
+
     def run(self):
         # main app loop
         while self.running:
