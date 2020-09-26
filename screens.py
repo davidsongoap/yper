@@ -79,7 +79,7 @@ class Screen:
         raise NotImplementedError
 
     def quit_game(self):
-        self.game.running = False
+        self.game.quit_game()
 
 
 class MenuScreen(Screen):
@@ -107,15 +107,19 @@ class MenuScreen(Screen):
 
         # Main menu buttons
         self.buttons.append(Button(self.game, "Play",
-                                   self.game.width//2, 360,
+                                   self.game.width//2, 340,
                                    ScreenType.GAME, size=65))
 
+        self.buttons.append(Button(self.game, "Scores",
+                                   self.game.width//2, 423,
+                                   ScreenType.OPTIONS, size=50))
+
         self.buttons.append(Button(self.game, "Options",
-                                   self.game.width//2, 443,
+                                   self.game.width//2, 495,
                                    ScreenType.OPTIONS, size=50))
 
         self.buttons.append(Button(self.game, "Quit",
-                                   self.game.width//2, 513,
+                                   self.game.width//2, 565,
                                    ScreenType.QUIT, size=45, bg_color=Colors.RED))
 
         # Play button starts highlighted
@@ -125,9 +129,9 @@ class MenuScreen(Screen):
         super().draw()
         #  show title
         self.show_text("YPER", size=210, color=Colors.LIGHT_BLUE1,
-                       x=self.game.width//2, y=200)
+                       x=self.game.width//2, y=180)
 
-        pygame.draw.rect(self.game.win, self.background_colour,(490,135,100,45))
+        pygame.draw.rect(self.game.win, self.background_colour,(490,115,100,45))
         #  show buttons
         for b in self.buttons:
             b.draw()
@@ -202,6 +206,7 @@ class PlayScreen(Screen):
         # input rectangles
         pygame.draw.rect(self.game.win, Colors.WHITE2,
                 ((self.game.width//2)-235,515,450,70), border_radius=20)
+
         pygame.draw.rect(self.game.win, Colors.DARK_BLUE1,
                 ((self.game.width//2)-230,520,440,60), border_radius=20)
 
