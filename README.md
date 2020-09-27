@@ -60,7 +60,6 @@ python main.py
 ## TODO
 
 - Change game settings on the options menu
-- Save and show highest scores
 - Text that makes sense
 
 <!-- CONTRIBUTING -->
