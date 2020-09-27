@@ -49,7 +49,7 @@ def load_scores(filename):
         scores = pickle.load(open(filename, "rb"))
     except FileNotFoundError:
         save_scores([], filename)
-        return load_scores()
+        return load_scores(filename)
     return scores
 
 def save_scores(scoreboard, filename):
