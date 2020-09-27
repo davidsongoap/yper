@@ -7,11 +7,13 @@
 #  By Davidson Gonçalves
 #  github.com/davidsongoap/yper
 
-import requests
 import json
+import pickle
+
+import requests
 
 
-def fetch(n_paragraphs, min_words, max_words):
+def fetch_words(n_paragraphs, min_words, max_words):
     text_type = "giberish"  # lorem / giberish
     link = f"https://www.randomtext.me/api/{text_type}/p-{n_paragraphs}/{min_words}-{max_words}"
     resp = requests.get(link)
@@ -40,3 +42,15 @@ def check_internet():
     except:
         conn.close()
         return False
+
+
+def load_scores(filename):
+    try:
+        scores = pickle.load(open(filename, "rb"))
+    except FileNotFoundError:
+        reset_scores(filename)
+        return load_scores()
+    return scores
+
+def save_scores(scoreboard, filename):
+    pickle.dump(scoreboard, open(filename, "wb"))

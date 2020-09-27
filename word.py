@@ -8,6 +8,7 @@
 #  github.com/davidsongoap/yper
 
 import pygame
+
 from palette import Colors
 
 
@@ -71,4 +72,3 @@ class Word:
         word_finished = self.current_char_idx == len(self.text)
 
         return self.current_char_idx == len(self.text), valid_char
-

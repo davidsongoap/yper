@@ -7,13 +7,17 @@
 #  By Davidson Gonçalves
 #  github.com/davidsongoap/yper
 
-import pygame
-from enum import Enum
-from palette import Colors
-from util import fetch, check_internet
-from word import Word
-from buttons import Button, OptionsButton
 import time
+from datetime import datetime
+from enum import Enum
+
+import numpy as np
+import pygame
+
+from buttons import Button, OptionsButton
+from palette import Colors
+from util import check_internet, fetch_words
+from word import Word
 
 
 class ScreenType(Enum):
@@ -23,6 +27,7 @@ class ScreenType(Enum):
     QUIT = 3
     ERROR = 4
     SCORE = 5
+    SCOREBOARD = 6
 
 
 class GameScreen:
@@ -51,7 +56,8 @@ class GameScreen:
                         OptionsScreen(self.game),
                         QuitScreen(self.game),
                         ErrorScreen(self.game),
-                        ScoreScreen(self.game)]
+                        ScoreScreen(self.game),
+                        ScoreBoardScreen(self.game)]
 
     def draw(self):
         # draw the current screen
@@ -107,19 +113,19 @@ class MenuScreen(Screen):
 
         # Main menu buttons
         self.buttons.append(Button(self.game, "Play",
-                                   self.game.width//2, 340,
+                                   self.game.width//2, 320,
                                    ScreenType.GAME, size=65))
 
-        self.buttons.append(Button(self.game, "Scores",
-                                   self.game.width//2, 423,
+        self.buttons.append(Button(self.game, "Options",
+                                   self.game.width//2, 403,
                                    ScreenType.OPTIONS, size=50))
 
-        self.buttons.append(Button(self.game, "Options",
-                                   self.game.width//2, 495,
-                                   ScreenType.OPTIONS, size=50))
+        self.buttons.append(Button(self.game, "Scoreboard",
+                                   self.game.width//2, 475,
+                                   ScreenType.SCOREBOARD, size=50))
 
         self.buttons.append(Button(self.game, "Quit",
-                                   self.game.width//2, 565,
+                                   self.game.width//2, 545,
                                    ScreenType.QUIT, size=45, bg_color=Colors.RED))
 
         # Play button starts highlighted
@@ -129,16 +135,15 @@ class MenuScreen(Screen):
         super().draw()
         #  show title
         self.show_text("YPER", size=210, color=Colors.LIGHT_BLUE1,
-                       x=self.game.width//2, y=180)
+                       x=self.game.width//2, y=150)
 
-        pygame.draw.rect(self.game.win, self.background_colour,(490,115,100,45))
+        pygame.draw.rect(self.game.win, self.background_colour,(490,85,100,45))
         #  show buttons
         for b in self.buttons:
             b.draw()
 
 
 class PlayScreen(Screen):
-    # TODO to time use TIMESTAMPS
 
     def __init__(self, game):
         super().__init__(game)
@@ -149,9 +154,15 @@ class PlayScreen(Screen):
         self.correct_key_count = 0
         self.wpm = 0
         self.accuracy = 0
+        self.hl_index = 0
 
     def process_event(self, event):
         if event.type == pygame.KEYDOWN:
+
+            # start the timer when the first key is pressed
+            if self.hl_index == 0:
+                self.start_time = int(time.time())
+
             char = event.unicode.lower()
             word_completed, valid_char = self.words[self.hl_index].process_char(char)
 
@@ -176,12 +187,16 @@ class PlayScreen(Screen):
                     # metrics
                     ending_time = int(time.time())
                     total_time = ending_time - self.start_time
-                    self.game.wpm = (len(self.words) / total_time) * 60
-                    self.game.wpm = int(self.game.wpm)
-                    self.game.accuracy = (self.correct_key_count / self.total_keys) * 100
-                    self.game.accuracy = round(self.game.accuracy, 2)
+                    self.game.recent_wpm = int((len(self.words) / total_time) * 60)
+                    self.game.recent_accuracy = round((self.correct_key_count / self.total_keys) * 100,1)
 
                     self.correct_key_count = 0
+
+                    # add to scoreboard
+                    now = datetime.now()
+                    dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+                    self.game.add_score((self.game.recent_wpm, self.game.recent_accuracy, dt_string))
+
                     self.game.current_screen = ScreenType.SCORE
                 else:
                     # highlight next word
@@ -193,7 +208,6 @@ class PlayScreen(Screen):
             # when this screen opens the word list is generated
             self.generate_word_list()
             self.started = True
-            self.start_time = int(time.time())
 
         # show words
         for word in self.words:
@@ -231,7 +245,7 @@ class PlayScreen(Screen):
         min_words = 15
         max_words = 15
 
-        word_list = fetch(n_paragraphs, min_words, max_words)
+        word_list = fetch_words(n_paragraphs, min_words, max_words)
 
         last_pos = None  # position of the last word added to the list
         line_idx = 0
@@ -282,10 +296,10 @@ class ScoreScreen(Screen):
         super().draw()
 
         self.show_text("WPM", self.game.width//2, 120, Colors.WHITE1, 70)
-        self.show_text(str(self.game.wpm), self.game.width//2, 190, Colors.LIGHT_BLUE2, 80)
+        self.show_text(str(self.game.recent_wpm), self.game.width//2, 190, Colors.LIGHT_BLUE2, 80)
 
         self.show_text("Accuracy", self.game.width//2, 300, Colors.WHITE1, 60)
-        self.show_text(str(self.game.accuracy) + "%", self.game.width//2, 370, Colors.LIGHT_BLUE2, 80)
+        self.show_text(str(self.game.recent_accuracy) + "%", self.game.width//2, 370, Colors.LIGHT_BLUE2, 80)
 
         for b in self.buttons:
             b.draw()
@@ -309,6 +323,41 @@ class ScoreScreen(Screen):
 
         self.buttons[0].toggle_highlight()
 
+
+class ScoreBoardScreen(Screen):
+    def __init__(self, game):
+        super().__init__(game)
+
+    def draw(self):
+        super().draw()
+
+        board_y_pos = 150
+        self.show_text(f"SCOREBOARD", size=90, x=self.game.width/2, y=60, color=Colors.LIGHT_BLUE1)
+        self.show_text(f"", size=25, x=600, y=board_y_pos-25, color=Colors.LIGHT_BLUE3)
+        self.show_text(f"", size=30, x=220, y=board_y_pos-25, color=Colors.LIGHT_BLUE3)
+        self.show_text(f"什", size=30, x=343, y=board_y_pos-25, color=Colors.LIGHT_BLUE3)
+        line_gap = 45
+        for i in range(10):
+            if i == 0: color = Colors.DARK_BLUE4
+            elif i == 1: color = Colors.DARK_BLUE3
+            elif i == 2: color = Colors.DARK_BLUE3
+            else: color = Colors.DARK_BLUE2
+            pygame.draw.rect(self.game.win,color,(420,board_y_pos+(line_gap*i),370,30),border_radius=5)
+            pygame.draw.rect(self.game.win,color,(170,board_y_pos+(line_gap*i),100,30),border_radius=5)
+            pygame.draw.rect(self.game.win,color,(285,board_y_pos+(line_gap*i),120,30),border_radius=5)
+
+        for j in range(len(self.game.scoreboard)):
+            wpm = self.game.scoreboard[j][0]
+            accuracy = self.game.scoreboard[j][1]
+            date = self.game.scoreboard[j][2]
+            self.show_text(str(wpm), size=26, x=220, y=board_y_pos+16+(line_gap*j), color=Colors.WHITE1)
+            self.show_text(str(accuracy)+"%", size=26, x=345, y=board_y_pos + 16+(line_gap*j),color=Colors.WHITE1)
+            self.show_text(str(date), size=26, x=605, y=board_y_pos + 16+(line_gap*j),color=Colors.WHITE1)
+
+    def process_event(self, event):
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                self.game.current_screen = ScreenType.MENU
 
 class ErrorScreen(Screen):
     def __init__(self, game):
@@ -337,9 +386,7 @@ class ErrorScreen(Screen):
         for b in self.buttons:
             b.draw()
 
-
 class OptionsScreen(Screen):
-    # TODO
     def __init__(self, game):
         super().__init__(game)
 

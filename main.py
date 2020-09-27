@@ -8,7 +8,9 @@
 #  github.com/davidsongoap/yper
 
 import pygame
+
 from screens import GameScreen, ScreenType
+from util import load_scores, save_scores
 
 pygame.init()
 
@@ -27,8 +29,12 @@ class Game:
         self.current_font = "fonts/Fira Code.ttf"
         self.current_screen = ScreenType.MENU
         self.screen = GameScreen(self)
-        self.accuracy = 0
-        self.wpm = 0
+        self.recent_accuracy = 0
+        self.recent_wpm = 0
+        self.score_filename = ".score.pickle"
+        # set_scores([], self.score_filename) # reseting scoreboard
+        self.scoreboard = load_scores(self.score_filename)
+
 
     def get_font(self):
         return self.current_font
@@ -36,16 +42,24 @@ class Game:
     def change_screen(self, new_screen):
         self.current_screen = new_screen
 
+    def add_score(self, score):
+        self.scoreboard.append(score)
+        self.scoreboard.sort(reverse=True)
+        if len(self.scoreboard) > 10:
+            self.scoreboard = self.scoreboard[:10]
+
+
     def process_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                self.running = False
+                self.quit_game()
 
             # the screen processess the pygame events
             self.screen.process_event(event)
 
     def quit_game(self):
         self.running = False
+        save_scores(self.scoreboard, self.score_filename)
 
     def run(self):
         # main app loop

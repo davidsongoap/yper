@@ -54,5 +54,4 @@ class Button():
 
 
 class OptionsButton(Button):
-    # TODO For the option screen buttons
     pass

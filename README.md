@@ -3,7 +3,7 @@
     <img src="images/demo.gif" alt="Demo">
 
   <h1 align="center">YPER</h1>
-  <p align="center">
+e <p align="center">
     Test your typing skills with Yper
   </p>
 </p>
