@@ -4,3 +4,5 @@ __pycache__/
 .vim/
 .idea/
 *.todo
+*.vim
+*.pickle
