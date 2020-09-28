@@ -9,7 +9,7 @@
 
 import pygame
 
-from palette import Colors
+from screens.palette import Colors
 
 
 class Word:
@@ -19,7 +19,7 @@ class Word:
         self.y = y
         self.win = win
         self.active = False
-        self.error = False
+        self.has_error = False
         self.font = pygame.font.Font(font, 35)
         self.text_render = self.font.render(self.text, True, Colors.DARK_BLUE1)
         self.textRect = self.text_render.get_rect()
@@ -29,9 +29,6 @@ class Word:
     def toggle_active(self):
         self.active = not self.active
 
-    def get_topleft(self):
-        return self.textRect.topleft
-
     def get_topright(self):
         return self.textRect.topright
 
@@ -40,7 +37,7 @@ class Word:
 
     def draw(self):
         background_color = Colors.WHITE1 if self.active else Colors.DARK_BLUE2
-        if self.error and self.active:
+        if self.has_error and self.active:
             background_color = Colors.RED
         horizontal_padding = 5
         button_width = (self.textRect.topright[0]-self.textRect.topleft[0]) + horizontal_padding*2
@@ -57,18 +54,15 @@ class Word:
 
         self.win.blit(self.text_render, self.textRect)
 
-    def change_color(self, color):
-        self.text_render = self.font.render(self.text, True, color)
-
     def process_char(self,char):
         valid_char = False
         if char == self.text[self.current_char_idx]:
             self.current_char_idx+=1
-            self.error = False
+            self.has_error = False
             valid_char = True
         else:
-            self.error = True
+            self.has_error = True
 
-        word_finished = self.current_char_idx == len(self.text)
+        is_finished = self.current_char_idx == len(self.text)
 
-        return self.current_char_idx == len(self.text), valid_char
+        return is_finished, valid_char

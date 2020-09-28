@@ -8,7 +8,7 @@
 #  github.com/davidsongoap/yper
 
 import pygame
-from palette import Colors
+from .palette import Colors
 
 
 class Button():

@@ -9,7 +9,7 @@
 
 import pygame
 
-from screens import GameScreen, ScreenType
+from game_screen import GameScreen, ScreenType
 from util import load_scores, save_scores
 
 pygame.init()
@@ -32,7 +32,7 @@ class Game:
         self.recent_accuracy = 0
         self.recent_wpm = 0
         self.score_filename = ".score.pickle"
-        # set_scores([], self.score_filename) # reseting scoreboard
+        # set_scores([], self.score_filename) # resets the scoreboard
         self.scoreboard = load_scores(self.score_filename)
 
 
