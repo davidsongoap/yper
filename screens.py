@@ -333,6 +333,7 @@ class ScoreBoardScreen(Screen):
 
         board_y_pos = 150
         self.show_text(f"SCOREBOARD", size=90, x=self.game.width/2, y=60, color=Colors.LIGHT_BLUE1)
+        pygame.draw.rect(self.game.win,self.background_colour,(420,33,30,20))
         self.show_text(f"", size=25, x=600, y=board_y_pos-25, color=Colors.LIGHT_BLUE3)
         self.show_text(f"", size=30, x=220, y=board_y_pos-25, color=Colors.LIGHT_BLUE3)
         self.show_text(f"什", size=30, x=343, y=board_y_pos-25, color=Colors.LIGHT_BLUE3)
