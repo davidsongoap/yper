@@ -9,6 +9,7 @@
 
 from .screen import Screen
 
+
 class QuitScreen(Screen):
     # Note: This screen is not supposed to show anything. It just closes the game
     def __init__(self, game):

@@ -7,10 +7,12 @@
 #  By Davidson Gonçalves
 #  github.com/davidsongoap/yper
 
-from .screen import Screen, ScreenType
+import pygame
+
 from .buttons import Button
 from .palette import Colors
-import pygame
+from .screen import Screen, ScreenType
+
 
 class ScoreScreen(Screen):
 
@@ -48,10 +50,9 @@ class ScoreScreen(Screen):
     def init_buttons(self):
         self.buttons.append(Button(self.game, "Play Again",
                                    self.game.width//2, (self.game.height//2) + 170,
-                                   ScreenType.GAME, size=40, bg_color=Colors.WHITE1))
+                                   ScreenType.COUNTDOWN, size=40, bg_color=Colors.WHITE1))
         self.buttons.append(Button(self.game, "Return to Menu",
                                    self.game.width//2, (self.game.height//2) + 240,
                                    ScreenType.MENU, size=40, bg_color=Colors.WHITE1))
 
         self.buttons[0].toggle_highlight()
-
