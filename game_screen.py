@@ -9,7 +9,7 @@
 
 from screens import *
 from util import check_internet
-import pygame
+
 
 class GameScreen:
     # This class is used to manage the screens

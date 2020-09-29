@@ -7,9 +7,12 @@
 #  By Davidson Gonçalves
 #  github.com/davidsongoap/yper
 
-from .screen import Screen, ScreenType
+import pygame
+
 from .buttons import Button
 from .palette import Colors
+from .screen import Screen, ScreenType
+
 
 class ErrorScreen(Screen):
     def __init__(self, game):

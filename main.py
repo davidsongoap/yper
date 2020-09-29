@@ -16,7 +16,9 @@ pygame.init()
 
 
 class Game:
+
     def __init__(self):
+
         self.width = 950
         self.height = 630
         self.FPS = 60
@@ -24,7 +26,7 @@ class Game:
         self.win = pygame.display.set_mode((self.width, self.height))
         icon = pygame.image.load("images/icon.png")
         pygame.display.set_icon(icon)
-        pygame.display.set_caption('YPER')
+        pygame.display.set_caption("YPER")
         self.running = True
         self.current_font = "fonts/Fira Code.ttf"
         self.current_screen = ScreenType.MENU
@@ -34,7 +36,6 @@ class Game:
         self.score_filename = ".score.pickle"
         # set_scores([], self.score_filename) # resets the scoreboard
         self.scoreboard = load_scores(self.score_filename)
-
 
     def get_font(self):
         return self.current_font
@@ -47,7 +48,6 @@ class Game:
         self.scoreboard.sort(reverse=True)
         if len(self.scoreboard) > 10:
             self.scoreboard = self.scoreboard[:10]
-
 
     def process_events(self):
         for event in pygame.event.get():

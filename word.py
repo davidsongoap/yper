@@ -54,10 +54,10 @@ class Word:
 
         self.win.blit(self.text_render, self.textRect)
 
-    def process_char(self,char):
+    def process_char(self, char):
         valid_char = False
         if char == self.text[self.current_char_idx]:
-            self.current_char_idx+=1
+            self.current_char_idx += 1
             self.has_error = False
             valid_char = True
         else:

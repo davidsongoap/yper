@@ -21,7 +21,7 @@ def fetch_words(n_paragraphs, min_words, max_words):
     words = r["text_out"].replace("<p>", "") \
                          .replace("</p>", "") \
                          .replace(".", "") \
-                         .replace(",","") \
+                         .replace(",", "") \
                          .lower().split()
 
     # remove duplicate words
@@ -51,6 +51,7 @@ def load_scores(filename):
         save_scores([], filename)
         return load_scores(filename)
     return scores
+
 
 def save_scores(scoreboard, filename):
     pickle.dump(scoreboard, open(filename, "wb"))

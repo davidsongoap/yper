@@ -8,6 +8,7 @@
 #  github.com/davidsongoap/yper
 
 import pygame
+
 from .palette import Colors
 
 
