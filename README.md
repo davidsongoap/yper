@@ -1,18 +1,16 @@
-<br />
 <p align="center">
     <img src="images/demo.gif" alt="Demo">
 
   <h1 align="center">YPER</h1>
-  <p align="center">
-    Test your typing skills with Yper
-  </p>
+  <h4 align="center"> Test your typing skills with Yper </h4>
 </p>
 
 <!-- TABLE OF CONTENTS -->
 
-## Table of Contents
+## :page_with_curl: Table of Contents
 
 - [How To Play](#how-to-play)
+- [Track Your Progress](#track-your-progress)
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
@@ -21,21 +19,28 @@
 
 <!-- ABOUT THE PROJECT -->
 
-## How To Play
+## :game_die: How To Play
 
 _Yper_ is a typing game written in python using the [Pygame](https://www.pygame.org/) Module
 
 The objective is to type the words shown as quickly as you can. You can only start writting the next once you've typed **every character** of the current word correctly.
 
-At the end you'll be presented with your calculated WPM (Words Per Minute) and Accuracy
+At the end you'll be presented with your calculated WPM (Words Per Minute) and Accuracy.
 
+Practice Makes Perfect!
+
+## :chart_with_upwards_trend: Track Your Progress
+
+<p align="center">
+    <img src="images/score.png" alt="Demo">
+</p>
 <!-- GETTING STARTED -->
 
-## Getting Started
+## :triangular_flag_on_post: Getting Started
 
 ### Prerequisites
 
-To play Yper you'll need
+To play Yper you'll need:
 
 - Python **3.x**
 - Pygame **2**
@@ -57,16 +62,16 @@ python main.py
 
 <!-- TODO -->
 
-## TODO
+## :clipboard: TODO
 
-- Change game settings on the options menu
-- Text that makes sense
+- Change game settings on the option screen
+- Show text that makes sense
 
 <!-- CONTRIBUTING -->
 
-## Contributing
+## :octocat: Contributing
 
-Any contribution to Yper is greatly appreciated.
+Contributions to Yper are greatly appreciated!
 
 1. Fork the Project
 2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
@@ -76,7 +81,7 @@ Any contribution to Yper is greatly appreciated.
 
 <!-- CONTACT -->
 
-## Contact
+## :email: Contact
 
 Davidson Gonçalves - davisongoap@gmail.com
 
