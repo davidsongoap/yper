@@ -7,15 +7,19 @@
 #  By Davidson Gonçalves
 #  github.com/davidsongoap/yper
 
-from .screen import Screen, ScreenType
-from .palette import Colors
 import sys
-sys.path.append("..")
+import time
+from datetime import datetime
+
+import pygame
+
 from util import fetch_words
 from word import Word
-from datetime import datetime
-import pygame
-import time
+
+from .palette import Colors
+from .screen import Screen, ScreenType
+
+sys.path.append("..")
 
 
 class PlayScreen(Screen):
@@ -39,43 +43,46 @@ class PlayScreen(Screen):
                 self.start_time = int(time.time())
 
             char = event.unicode.lower()
-            word_completed, valid_char = self.words[self.hl_index].process_char(char)
+            self.process_char(char)
 
-            # the character typed was correct
-            if valid_char:
-                self.typed_text += char
-                self.correct_key_count += 1
+    def process_char(self, char):
+        word_completed, valid_char = self.words[self.hl_index].process_char(char)
+
+        # the character typed was correct
+        if valid_char:
+            self.typed_text += char
+            self.correct_key_count += 1
+        else:
+            self.correct_key_count -= 1
+
+        if word_completed:
+            # reset typed text
+            self.typed_text = ""
+            self.words[self.hl_index].toggle_active()
+            self.hl_index += 1
+
+            if self.hl_index == len(self.words):
+                # game ended
+                self.started = False
+                self.game.current_screen = ScreenType.MENU
+
+                # metrics
+                ending_time = int(time.time())
+                total_time = ending_time - self.start_time
+                self.game.recent_wpm = int((len(self.words) / total_time) * 60)
+                self.game.recent_accuracy = round((self.correct_key_count / self.total_keys) * 100, 1)
+
+                self.correct_key_count = 0
+
+                # add to scoreboard
+                now = datetime.now()
+                dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+                self.game.add_score((self.game.recent_wpm, self.game.recent_accuracy, dt_string))
+
+                self.game.current_screen = ScreenType.SCORE
             else:
-                self.correct_key_count -= 1
-
-            if word_completed:
-                # reset typed text
-                self.typed_text = ""
+                # highlight next word
                 self.words[self.hl_index].toggle_active()
-                self.hl_index += 1
-
-                if self.hl_index == len(self.words):
-                    # game ended
-                    self.started = False
-                    self.game.current_screen = ScreenType.MENU
-
-                    # metrics
-                    ending_time = int(time.time())
-                    total_time = ending_time - self.start_time
-                    self.game.recent_wpm = int((len(self.words) / total_time) * 60)
-                    self.game.recent_accuracy = round((self.correct_key_count / self.total_keys) * 100,1)
-
-                    self.correct_key_count = 0
-
-                    # add to scoreboard
-                    now = datetime.now()
-                    dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
-                    self.game.add_score((self.game.recent_wpm, self.game.recent_accuracy, dt_string))
-
-                    self.game.current_screen = ScreenType.SCORE
-                else:
-                    # highlight next word
-                    self.words[self.hl_index].toggle_active()
 
     def draw(self):
         super().draw()
@@ -94,10 +101,10 @@ class PlayScreen(Screen):
     def display_input(self):
         # input rectangles
         pygame.draw.rect(self.game.win, Colors.WHITE2,
-                ((self.game.width//2)-235,515,450,70), border_radius=20)
+                         ((self.game.width//2)-235, 515, 450, 70), border_radius=20)
 
         pygame.draw.rect(self.game.win, Colors.DARK_BLUE1,
-                ((self.game.width//2)-230,520,440,60), border_radius=20)
+                         ((self.game.width//2)-230, 520, 440, 60), border_radius=20)
 
         # show typed text
         self.show_text(self.typed_text, self.game.width//2, 550, Colors.WHITE1, 35)
@@ -152,4 +159,3 @@ class PlayScreen(Screen):
 
         # highlight the first word
         self.words[self.hl_index].toggle_active()
-

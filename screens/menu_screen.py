@@ -7,10 +7,12 @@
 #  By Davidson Gonçalves
 #  github.com/davidsongoap/yper
 
-from .screen import Screen, ScreenType
+import pygame
+
 from .buttons import Button
 from .palette import Colors
-import pygame
+from .screen import Screen, ScreenType
+
 
 class MenuScreen(Screen):
     def __init__(self, game):
@@ -38,7 +40,7 @@ class MenuScreen(Screen):
         # Main menu buttons
         self.buttons.append(Button(self.game, "Play",
                                    self.game.width//2, 320,
-                                   ScreenType.GAME, size=65))
+                                   ScreenType.COUNTDOWN, size=65))
 
         self.buttons.append(Button(self.game, "Options",
                                    self.game.width//2, 403,
@@ -61,8 +63,7 @@ class MenuScreen(Screen):
         self.show_text("YPER", size=210, color=Colors.LIGHT_BLUE1,
                        x=self.game.width//2, y=150)
 
-        pygame.draw.rect(self.game.win, self.background_colour,(490,85,100,45))
+        pygame.draw.rect(self.game.win, self.background_colour, (490, 85, 100, 45))
         #  show buttons
         for b in self.buttons:
             b.draw()
-

@@ -11,6 +11,7 @@ from .palette import Colors
 from enum import Enum
 import pygame
 
+
 class ScreenType(Enum):
     MENU = 0
     GAME = 1
@@ -20,6 +21,7 @@ class ScreenType(Enum):
     SCORE = 5
     SCOREBOARD = 6
     COUNTDOWN = 7
+
 
 class Screen:
     def __init__(self, game):

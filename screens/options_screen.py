@@ -7,9 +7,11 @@
 #  By Davidson Gonçalves
 #  github.com/davidsongoap/yper
 
-from .screen import Screen, ScreenType
-from .palette import Colors
 import pygame
+
+from .palette import Colors
+from .screen import Screen, ScreenType
+
 
 class OptionsScreen(Screen):
     def __init__(self, game):
@@ -26,4 +28,3 @@ class OptionsScreen(Screen):
                        y=(self.game.height//2) - 50, size=250, color=Colors.WHITE2)
         self.show_text("coming soon", x=self.game.width//2,
                        y=(self.game.height//2) + 130, size=60, color=Colors.WHITE2)
-
