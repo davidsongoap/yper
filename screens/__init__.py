@@ -8,4 +8,12 @@ from .score_screen import ScoreScreen
 from .scoreboard_screen import ScoreBoardScreen
 from .screen import ScreenType
 
-__all__ = list(globals().keys())[8:]
+__all__ = ["CountdownScreen",
+           "ErrorScreen",
+           "MenuScreen",
+           "OptionsScreen",
+           "PlayScreen",
+           "QuitScreen",
+           "ScoreScreen",
+           "ScoreBoardScreen",
+           "ScreenType"]
