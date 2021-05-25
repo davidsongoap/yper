@@ -5,17 +5,6 @@
   <h4 align="center"> Test your typing skills with Yper </h4>
 </p>
 
-<!-- TABLE OF CONTENTS -->
-
-## :page_with_curl: Table of Contents
-
-- [How To Play](#how-to-play)
-- [Track Your Progress](#track-your-progress)
-- [Getting Started](#getting-started)
-  - [Prerequisites](#prerequisites)
-  - [Installation](#installation)
-- [Contributing](#contributing)
-- [Contact](#contact)
 
 <!-- ABOUT THE PROJECT -->
 
