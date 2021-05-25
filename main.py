@@ -1,4 +1,3 @@
-#  __  __ ____   ______ ____
 #  \ \/ // __ \ / ____// __ \
 #   \  // /_/ // __/  / /_/ /
 #   / // ____// /___ / _, _/
@@ -14,8 +13,7 @@ from util import load_scores, save_scores
 
 pygame.init()
 
-
-class Game:
+class Game():
 
     def __init__(self):
 
@@ -73,6 +71,7 @@ class Game:
         self.screen.draw()
         pygame.display.update()
 
-
 game = Game()
 game.run()
+
+
