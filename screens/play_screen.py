@@ -124,8 +124,8 @@ class PlayScreen(Screen):
 
         # fetch options for the word list
         n_paragraphs = 3
-        min_words = 15
-        max_words = 15
+        min_words = 25
+        max_words = 25
 
         word_list = fetch_words(n_paragraphs, min_words, max_words)
 
